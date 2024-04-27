@@ -18,7 +18,7 @@ def close(exception):
 
 
 @app.errohandlr(404)
-def error_404():
+def error_404(error):
     """return a json reponse on 404 error"""
     return jsonify({"error": "Not found"})
 
