@@ -1,18 +1,18 @@
 #!/usr/bin/python3
-"""state view for the api"""
+"""implementation for the state view for the api"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request, make_response
-from models import storage
+from flask import abort, jsonify, make_response, request
 from models.state import State
+from models import storage
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def states():
     """return a json list of all states"""
     objects = storage.all(State)
-    json_list = [objects.to_dict() for obj in objects.values()]
-    return jsonify(json_list)
+    json_list = []
+    return jsonify(objects.to_dict() for obj in objects.values())
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
