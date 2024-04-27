@@ -17,8 +17,8 @@ def close(exception):
     storage.close()
 
 
-@app.errohandlr(404)
-def error_404(error):
+@app.errorhandler(404)
+def error_404():
     """return a json reponse on 404 error"""
     return jsonify({"error": "Not found"})
 
