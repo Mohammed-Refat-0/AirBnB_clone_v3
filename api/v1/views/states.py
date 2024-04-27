@@ -41,16 +41,16 @@ def create():
     """post a new State"""
     new_state = request.get_json()
     if not new_state:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     if 'name' not in new_state:
-        abort(400, "Missing name")
+        abort(400, description="Missing name")
     object = State(**new_state)
     object.save()
     return make_response(jsonify(object.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state(state_id):
+def update(state_id):
     """Updates a State object"""
     object = storage.get(State, state_id)
     if not object:
