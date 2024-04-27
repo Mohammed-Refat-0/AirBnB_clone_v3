@@ -2,7 +2,7 @@
 """instance of api app"""
 
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from os import environ
 
@@ -15,6 +15,12 @@ app.register_blueprint(app_views)
 def close(exception):
     """terminate current session"""
     storage.close()
+
+
+@app.errohandlr(404)
+def error_404():
+    """return a json reponse on 404 error"""
+    return jsonify({"error": "Not found"})
 
 
 if __name__ == "__main__":
