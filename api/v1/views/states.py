@@ -11,8 +11,8 @@ from models import storage
 def states():
     """return a json list of all states"""
     objects = storage.all(State)
-    json_list = []
-    return jsonify(objects.to_dict() for obj in objects.values())
+    json_list = [objects.to_dict() for object in objects.values()]
+    return jsonify(json_list)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -31,7 +31,7 @@ def delete(id):
     state = storage.get(State, id)
     if not state:
         abort(404)
-    state.delete()
+    storage.delete(state)
     storage.save()
     return make_response(jsonify({}), 200)
 
