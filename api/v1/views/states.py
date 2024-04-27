@@ -2,7 +2,7 @@
 """state view for the api"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 from models import storage
 from models.state import State
 
@@ -33,7 +33,7 @@ def delete(id):
         abort(404)
     state.delete()
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -47,11 +47,11 @@ def create():
     object = State(**new_state)
     storage.new(object)
     storage.save()
-    return jsonify(object.to_dict()), 201
+    return make_response(jsonify(object.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_state(id):
+def update(id):
     """Updates a State object"""
     object = storage.get(State, id)
     if not object:
@@ -65,4 +65,4 @@ def put_state(id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(object, key, value)
     storage.save()
-    return jsonify(object.to_dict()), 200
+    return make_response(jsonify(object.to_dict()), 200)
