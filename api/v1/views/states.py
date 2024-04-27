@@ -16,9 +16,9 @@ def states():
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def state(id):
+def state(state_id):
     """return json data of a state by its id"""
-    state = storage.get(State, id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     return jsonify(state.to_dict())
@@ -26,9 +26,9 @@ def state(id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(id):
+def delete(state_id):
     """delete a state by its id"""
-    state = storage.get(State, id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     storage.delete(state)
@@ -45,8 +45,7 @@ def create():
     if 'name' not in new_state:
         abort(400, "Missing name")
     object = State(**new_state)
-    storage.new(object)
-    storage.save()
+    object.save()
     return make_response(jsonify(object.to_dict()), 201)
 
 
