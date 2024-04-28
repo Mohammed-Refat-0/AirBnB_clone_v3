@@ -68,7 +68,7 @@ def update_user(user_id):
         abort(400, "Not a JSON")
 
     for key, value in dict.items():
-        if key not in ['id', 'created_at', 'update_at', 'email']:
+        if key not in ['id', 'created_at', 'updated_at', 'email']:
             setattr(object, key, value)
 
     storage.save()
