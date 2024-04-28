@@ -3,6 +3,7 @@
 
 from api.v1.views import app_views
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 from os import environ
 
@@ -21,6 +22,9 @@ def close(exception):
 def error_404(err):
     """return a json reponse on 404 erro"""
     return jsonify(error='Not found'), 404
+
+
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 if __name__ == "__main__":
