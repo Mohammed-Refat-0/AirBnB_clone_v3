@@ -49,7 +49,7 @@ def create_user():
     if 'password' not in new_user:
         abort(400, "Missing password")
 
-    object = Amenity(**new_user)
+    object = User(**new_user)
     storage.new(object)
     storage.save()
     return make_response(jsonify(object.to_dict()), 201)
