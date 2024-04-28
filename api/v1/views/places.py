@@ -8,10 +8,13 @@ from models.city import City
 from models.user import User
 
 
-@app_views.route('/places', methods=['GET'], strict_slashes=False)
-def Places():
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
+def Places(city_id):
     """return json list of all Places objects"""
-    objects = storage.all(Place)
+    objects = storage.get(City, city_id)
+    if not objects:
+        abort(404)
     json_list = [object.to_dict() for object in objects.values()]
     return jsonify(json_list)
 
@@ -48,7 +51,7 @@ def create_Place(city_id):
     if not city:
         abort(404)
     if not new_Place:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     if 'user_id' not in new_Place:
         abort(400, "Missing user_id")
     if 'name' not in new_Place:
@@ -59,8 +62,7 @@ def create_Place(city_id):
     if not user:
         abort(404)
     object = Place(**new_Place)
-    object.city_id = city_id
-    object.user_id = userid
+    setattr(object, 'city_id', city_id)
     storage.new(object)
     storage.save()
     return make_response(jsonify(object.to_dict()), 201)
