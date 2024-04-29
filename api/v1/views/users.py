@@ -47,7 +47,7 @@ def create_user():
     if 'email' not in new_user:
         abort(400, "Missing email")
     if 'password' not in new_user:
-        abort(400, "Missing password")
+        abort(400, description="Missing password")
 
     object = User(**new_user)
     storage.new(object)
@@ -55,8 +55,7 @@ def create_user():
     return make_response(jsonify(object.to_dict()), 201)
 
 
-@app_views.route('/users/<user_id>',
-                 methods=['PUT'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
     """update an user object"""
     object = storage.get(User, user_id)
