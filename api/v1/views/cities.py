@@ -62,7 +62,7 @@ def update_city(city_id):
     """Updates a city object"""
     object = storage.get(City, city_id)
     if not object:
-        abort(code=404)
+        abort(404)
 
     dict = request.get_json()
     if not dict:
