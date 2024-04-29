@@ -19,7 +19,7 @@ def amenitiy(amenity_id):
     """return an Amenity object"""
     object = storage.get(Amenity, amenity_id)
     if not object:
-        abort(404)
+        abort(code=404)
     return jsonify(object.to_dict())
 
 
@@ -43,12 +43,13 @@ def create_amenity():
     if not new_amenity:
         abort(400, "Not a JSON")
     if 'name' not in new_amenity:
-        abort(400, "Missing name")
+        abort(code=400, description="Missing name")
 
     object = Amenity(**new_amenity)
     storage.new(object)
     storage.save()
-    return make_response(jsonify(object.to_dict()), 201)
+    json_data = jsonify(object.to_dict())
+    return make_response(json_data, 201)
 
 
 @app_views.route('/amenities/<amenity_id>',
