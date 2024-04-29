@@ -36,8 +36,7 @@ def delete_city(city_id):
         abort(404)
     city.delete()
     storage.save()
-    empty_dict = {}
-    return make_response(jsonify(empty_dict), 200)
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
