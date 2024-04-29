@@ -47,7 +47,7 @@ def create_user():
     if 'email' not in new_user:
         abort(400, "Missing email")
     if 'password' not in new_user:
-        abort(400, description="Missing password")
+        abort(400, "Missing password")
 
     object = User(**new_user)
     storage.new(object)
