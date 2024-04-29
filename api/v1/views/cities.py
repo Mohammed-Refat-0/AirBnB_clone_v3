@@ -37,7 +37,7 @@ def delete_city(city_id):
     city.delete()
     storage.save()
     empty_dict = {}
-    return make_response(empty_dict, 200)
+    return make_response(jsonify(empty_dict), 200)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
@@ -62,7 +62,7 @@ def create_city(state_id):
 def update_city(city_id):
     """Updates a city object"""
     object = storage.get(City, city_id)
-    if not object:
+    if object is None:
         abort(404)
 
     dict = request.get_json()
